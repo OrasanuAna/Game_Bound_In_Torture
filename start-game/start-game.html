@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start Game</title>
+    <link rel="stylesheet" href="start-game.css" />
+  </head>
+
+  <link
+    href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,900"
+    rel="stylesheet"
+  />
+
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    version="1.1"
+    style="width: 0; height: 0"
+  >
+    <defs>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+        <feColorMatrix
+          in="blur"
+          mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+          result="goo"
+        />
+        <feBlend in="SourceGraphic" in2="goo" />
+      </filter>
+    </defs>
+  </svg>
+  <body>
+    <div class="card">
+      <h1>Bound in torture</h1>
+      <span class="drop"></span>
+      <span class="drop"></span>
+      <span class="drop"></span>
+      <span class="drop"></span>
+      <span class="drop"></span>
+      <div class="buttons">
+        <a href="../chamber-One/chamber-One.html">
+          <button class="start-button">Start Game</button>
+        </a>
+        <button class="instructions-button" onclick="openInstructions()">
+          Instructions
+        </button>
+      </div>
+    </div>
+
+    <div id="instructions-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeInstructions()">&times;</span>
+        <img
+          src="/assets/instructions.png"
+          alt="Game Instructions"
+          class="instructions-image"
+        />
+      </div>
+    </div>
+
+    <script src="start-game.js"></script>
+  </body>
+</html>

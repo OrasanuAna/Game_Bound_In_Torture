@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chamber Two</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <link rel="stylesheet" href="chamber-Two.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="top-row">
+        <div class="image-section">
+          <img
+            src="/assets/placeholderChamberOne.jpg"
+            alt="Placeholder Image"
+          />
+        </div>
+        <div class="game-section">
+          <canvas id="gameCanvas"></canvas>
+        </div>
+      </div>
+      <div class="text-box">
+        <div class="text-content">
+          <p class="character-name">Vespera</p>
+          <div class="text-button">
+            <p class="character-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Laudantium doloribus sequi, repellendus similique esse
+              voluptatibus vitae necessitatibus eum cupiditate voluptate unde
+              libero sapiente eos accusantium explicabo voluptas cumque
+              consequuntur? Explicabo.
+            </p>
+            <button class="next-button">
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+        <div class="inventory-section">
+          <p class="inventory-title">Inventory</p>
+          <div class="inventory-grid">
+            <div class="inventory-slot"><img src="/assets/ring.png" /></div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
+    <script>
+      const app = new PIXI.Application({
+        view: document.getElementById("gameCanvas"),
+        width: window.innerWidth * 0.8,
+        height: window.innerHeight * 0.9,
+        backgroundColor: 0x1099bb,
+      });
+    </script>
+
+    <script type="module" src="./chamber-Two-game.js"></script>
+      
+    <div id="messageModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <p id="modal-text">This is a secret message!</p>
+      </div>
+    </div>
+  </body>
+</html>
