@@ -12,8 +12,8 @@
       <div class="top-row">
         <div class="image-section">
           <img
-            src="/assets/placeholderChamberOne.jpg"
-            alt="Placeholder Image"
+            src="/assets/Vespera-chamber-Three.png"
+            alt="Vespera Chamber Three"
           />
         </div>
         <div class="game-section">
@@ -39,9 +39,9 @@
         <div class="inventory-section">
           <p class="inventory-title">Inventory</p>
           <div class="inventory-grid">
-            <div class="inventory-slot"><img src="/assets/ring.png" /></div>
-            <div class="inventory-slot"></div>
-            <div class="inventory-slot"></div>
+            <div class="inventory-slot"><img src="/assets/artefact1.png" /></div>
+            <div class="inventory-slot"><img src="/assets/artefact2.png"/></div>
+            <div class="inventory-slot"><img src="/assets/artefact3.png"/></div>
             <div class="inventory-slot"></div>
           </div>
         </div>
@@ -52,14 +52,43 @@
     <script>
       const app = new PIXI.Application({
         view: document.getElementById("gameCanvas"),
-        width: window.innerWidth * 0.8,
-        height: window.innerHeight * 0.9,
-        backgroundColor: 0x1099bb,
+        width: window.innerWidth * 0.75,
+        height: window.innerHeight * 0.85,
+      });
+
+      app.stage.sortableChildren = true;
+
+      const backgroundTexture = PIXI.Texture.from(
+        "/assets/chamber-Three-background.jpg"
+      );
+      const backgroundSprite = new PIXI.Sprite(backgroundTexture);
+
+      backgroundSprite.width = app.renderer.width;
+      backgroundSprite.height = app.renderer.height;
+      backgroundSprite.zIndex = -1;
+
+      app.stage.addChildAt(backgroundSprite, 0);
+
+      console.log("Background added:", backgroundSprite);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const audio = new Audio("/assets/chamber-Two-sound.mp3");
+        audio.loop = true;
+        audio.volume = 1;
+
+        const playAudio = () => {
+          audio
+            .play()
+            .catch((error) => console.log("Autoplay restriction:", error));
+          document.removeEventListener("click", playAudio);
+        };
+
+        document.addEventListener("click", playAudio);
       });
     </script>
 
     <script type="module" src="./chamber-Three-game.js"></script>
-      
+
     <div id="messageModal" class="modal">
       <div class="modal-content">
         <span class="close-btn">&times;</span>

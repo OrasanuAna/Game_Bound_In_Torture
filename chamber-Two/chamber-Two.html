@@ -12,8 +12,8 @@
       <div class="top-row">
         <div class="image-section">
           <img
-            src="/assets/placeholderChamberOne.jpg"
-            alt="Placeholder Image"
+            src="/assets/Vespera-chamber-Two.png"
+            alt="Vespera Chamber Two"
           />
         </div>
         <div class="game-section">
@@ -22,14 +22,10 @@
       </div>
       <div class="text-box">
         <div class="text-content">
-          <p class="character-name">Vespera</p>
+          <p class="character-name">Aldric</p>
           <div class="text-button">
             <p class="character-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium doloribus sequi, repellendus similique esse
-              voluptatibus vitae necessitatibus eum cupiditate voluptate unde
-              libero sapiente eos accusantium explicabo voluptas cumque
-              consequuntur? Explicabo.
+              Why is everything changing?
             </p>
             <button class="next-button">
               <i class="fas fa-arrow-right"></i>
@@ -39,7 +35,7 @@
         <div class="inventory-section">
           <p class="inventory-title">Inventory</p>
           <div class="inventory-grid">
-            <div class="inventory-slot"><img src="/assets/ring.png" /></div>
+            <div class="inventory-slot"></div>
             <div class="inventory-slot"></div>
             <div class="inventory-slot"></div>
             <div class="inventory-slot"></div>
@@ -52,14 +48,43 @@
     <script>
       const app = new PIXI.Application({
         view: document.getElementById("gameCanvas"),
-        width: window.innerWidth * 0.8,
-        height: window.innerHeight * 0.9,
-        backgroundColor: 0x1099bb,
+        width: window.innerWidth * 0.7,
+        height: window.innerHeight * 0.86,
+      });
+
+      app.stage.sortableChildren = true;
+
+      const backgroundTexture = PIXI.Texture.from(
+        "/assets/chamber-Two-background.jpg"
+      );
+      const backgroundSprite = new PIXI.Sprite(backgroundTexture);
+
+      backgroundSprite.width = app.renderer.width;
+      backgroundSprite.height = app.renderer.height;
+      backgroundSprite.zIndex = -1;
+
+      app.stage.addChildAt(backgroundSprite, 0);
+
+      console.log("Background added:", backgroundSprite);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const audio = new Audio("/assets/chamber-Two-sound.mp3");
+        audio.loop = true;
+        audio.volume = 1;
+
+        const playAudio = () => {
+          audio
+            .play()
+            .catch((error) => console.log("Autoplay restriction:", error));
+          document.removeEventListener("click", playAudio);
+        };
+
+        document.addEventListener("click", playAudio);
       });
     </script>
 
     <script type="module" src="./chamber-Two-game.js"></script>
-      
+
     <div id="messageModal" class="modal">
       <div class="modal-content">
         <span class="close-btn">&times;</span>

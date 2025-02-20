@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prologue</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <link rel="stylesheet" href="prologue.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="top-row">
+        <div class="game-section">
+          <canvas id="gameCanvas"></canvas>
+        </div>
+      </div>
+      <div class="text-box">
+        <div class="text-content">
+          <p class="character-name">Vespera</p>
+          <div class="text-button">
+            <p class="character-text">
+            </p>
+            <button class="next-button">
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+        <div class="inventory-section">
+          <p class="inventory-title">Inventory</p>
+          <div class="inventory-grid">
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
+    <script>
+      const app = new PIXI.Application({
+        view: document.getElementById("gameCanvas"),
+        width: window.innerWidth * 1,
+        height: window.innerHeight * 0.9,
+      });
+
+      app.stage.sortableChildren = true;
+
+      const backgroundTexture = PIXI.Texture.from(
+        "/assets/prologue-background.jpg"
+      );
+      const backgroundSprite = new PIXI.Sprite(backgroundTexture);
+
+      backgroundSprite.width = app.renderer.width;
+      backgroundSprite.height = app.renderer.height;
+      backgroundSprite.zIndex = -1;
+
+      // Adaugă imaginea de fundal prima în scenă 
+      app.stage.addChildAt(backgroundSprite, 0);
+
+      console.log("Background added:", backgroundSprite);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const audio = new Audio("/assets/prologue-sound.mp3");
+        audio.loop = true;
+        audio.volume = 1;
+
+        const playAudio = () => {
+          audio
+            .play()
+            .catch((error) => console.log("Autoplay restriction:", error));
+          document.removeEventListener("click", playAudio);
+        };
+
+        document.addEventListener("click", playAudio);
+      });
+
+      const battleDialogue = [
+        {
+          speaker: "Aldric",
+          text: "It's so cold… something is calling me. What is this place? Where am I?",
+        },
+        {
+          speaker: "Vespera",
+          text: "Have you forgotten, Aldric? Don’t you feel… at home? This silence never existed before, did it?",
+        },
+      ];
+
+      const characterNameElement = document.querySelector(".character-name");
+      const characterTextElement = document.querySelector(".character-text");
+      const nextButton = document.querySelector(".next-button");
+
+      let currentDialogueIndex = 0;
+
+      function updateDialogue() {
+        if (currentDialogueIndex < battleDialogue.length) {
+          const { speaker, text } = battleDialogue[currentDialogueIndex];
+
+          characterNameElement.textContent = speaker;
+          characterTextElement.textContent = text;
+
+          currentDialogueIndex++;
+        } else {
+          nextButton.style.display = "none";
+        }
+      }
+
+      nextButton.addEventListener("click", updateDialogue);
+
+      document.addEventListener("DOMContentLoaded", updateDialogue);
+    </script>
+
+    <script type="module" src="./prologue.js"></script>
+
+    <div id="messageModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <p id="modal-text">This is a secret message!</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -6,8 +6,10 @@ const app = new PIXI.Application({
     view: canvas,
     width: canvas.clientWidth,
     height: canvas.clientHeight,
-    backgroundColor: 0x1099bb
+    backgroundAlpha: 0,
+    backgroundTexture: PIXI.Texture.from("/assets/chamber-Four-background.jpg"),
 });
+
 
 // Resize PixiJS when the window resizes
 window.addEventListener("resize", () => {
@@ -22,58 +24,91 @@ function createPlatform(x, y, width, height) {
     platform.endFill();
     platform.x = x;
     platform.y = y;
-    platform.width = width;
-    platform.height = height;
     app.stage.addChild(platform);
     return platform;
 }
 
-
-const groundWidth = app.renderer.width * 1.0; 
-const groundHeight = app.renderer.height * 0.20;
-
+// Create the ground
+const groundWidth = app.renderer.width;
+const groundHeight = app.renderer.height * 0.05;
 
 const metalWidth = app.renderer.width * 0.1; 
 const metalHeight = app.renderer.height * 0.328;
 
-
 const ground = createPlatform(0, app.renderer.height - groundHeight, groundWidth, groundHeight);
 
-const metalObject = new PIXI.Graphics();
-metalObject.beginFill(0xA9A9A9); // Metallic gray
-metalObject.drawRect(300, 0, 50, 100);
-metalObject.endFill();
-metalObject.x = app.renderer.width / 2 - metalWidth;
+// Load metal textures
+const metalTextureBefore = PIXI.Texture.from("/assets/ironMainden.png");
+const metalTextureAfter = PIXI.Texture.from("/assets/ironMainden2.png");
+
+const metalObject = new PIXI.Sprite(metalTextureBefore);
+metalObject.scale.x = -1;
+metalObject.x = app.renderer.width - metalWidth;
 metalObject.y = app.renderer.height - metalHeight;
+metalObject.width = 50;
+metalObject.height = 100;
 app.stage.addChild(metalObject);
 
-// Create the player (blue cube)
-const cube = new PIXI.Graphics();
-cube.beginFill(0x349457);
-cube.drawRect(0, 0, 50, 50);
-cube.endFill();
-cube.x = 100;
-cube.y = 500;
-cube.width = 50;
-cube.height = 50;
-app.stage.addChild(cube);
+// Load running animation frames for the character
+const runFrames = [
+    PIXI.Texture.from("/assets/frame1.png"),
+    PIXI.Texture.from("/assets/frame2.png"),
+    PIXI.Texture.from("/assets/frame3.png"),
+    PIXI.Texture.from("/assets/frame4.png"),    
+    PIXI.Texture.from("/assets/frame5.png"),
+    PIXI.Texture.from("/assets/frame6.png"),
+    PIXI.Texture.from("/assets/frame7.png"),
+    PIXI.Texture.from("/assets/frame8.png")
+];
+
+// Create the player sprite
+const player = new PIXI.AnimatedSprite(runFrames);
+player.x = 100;
+player.y = app.renderer.height - groundHeight - 80;
+player.width = 50;
+player.height = 80;
+player.scale.set(0.2, 0.2);
+player.anchor.set(0.5, 1);
+player.animationSpeed = 0.15;
+player.loop = true;
+player.play();
+app.stage.addChild(player);
 
 // Movement variables
-let speed = 5;
+let speed = 4;
 let gravity = 1;
 let velocityY = 0;
 let isJumping = false;
 let keys = {};
-let onMovingPlatform = false;
+let gameEnded = false;
 
 // Listen for keydown and keyup
 window.addEventListener("keydown", (e) => keys[e.code] = true);
 window.addEventListener("keyup", (e) => keys[e.code] = false);
 
+const backgroundTexture = PIXI.Texture.from("/assets/chamber-Four-background.jpg");
+
+// Ensure the texture is fully loaded before using it
+backgroundTexture.baseTexture.on("loaded", () => {
+    console.log("Background loaded successfully!");
+});
+
+// Create background sprite
+const backgroundSprite = new PIXI.Sprite(backgroundTexture);
+
+// Make sure it covers the entire canvas
+backgroundSprite.width = app.renderer.width;
+backgroundSprite.height = app.renderer.height;
+backgroundSprite.zIndex = -1;
+
+// Add to stage
+app.stage.addChildAt(backgroundSprite, 0);
+
+
 // Jump function
 function jump() {
     if (!isJumping) {
-        velocityY = -17;
+        velocityY = -15;
         isJumping = true;
     }
 }
@@ -82,7 +117,15 @@ window.addEventListener("keydown", (e) => {
     if (e.code === "Space") jump();
 });
 
-// Function to check collision (Rectangular Objects)
+// Function to check collision with the ground
+function checkGroundCollision(player, ground) {
+    if (player.y + player.height >= ground.y) {
+        player.y = ground.y - player.height;
+        velocityY = 0;
+        isJumping = false;
+    }
+}
+
 function isColliding(obj1, obj2) {
     return obj1.x < obj2.x + obj2.width &&
            obj1.x + obj1.width > obj2.x &&
@@ -90,74 +133,61 @@ function isColliding(obj1, obj2) {
            obj1.y + obj1.height > obj2.y;
 }
 
-// Function to handle platform collision
-function checkPlatformCollision(player, platform) {
-    if (player.y + player.height > platform.y &&
-        player.y + player.height - velocityY <= platform.y &&
-        player.x + player.width > platform.x &&
-        player.x < platform.x + platform.width) {
-        
-        player.y = platform.y - player.height;
-        velocityY = 0;
-        isJumping = false;
-    }
-}
-
-// Function to end the game
 function endGame() {
+    gameEnded = true;
     document.querySelector(".character-text").innerText = "Vespera: You reached the end!";
-    setTimeout(() => {
-        window.location.href = "../start-game/start-game.html";
-    }, 3000);
-}
-
-// 🆕 **Animation: Move Player to the Center at Start**
-function moveToCenter() {
-    let targetX = app.renderer.width / 2 - cube.width / 2;
-    let targetY = ground.y - cube.height;
     
-    let moveSpeed = 2; // Speed of movement
+    // Change metal box texture
+    metalObject.texture = metalTextureAfter;
+    
     let moveInterval = setInterval(() => {
-        if (Math.abs(cube.x - targetX) < moveSpeed) {
-            cube.x = targetX;
-        } else {
-            cube.x += cube.x < targetX ? moveSpeed : -moveSpeed;
+        
+        if (Math.abs(metalObject.x - player.x) < 5 && Math.abs(metalObject.y - player.y) < 5) {
+            clearInterval(moveInterval);
+            setTimeout(() => {
+                window.location.href = "../start-game/start-game.html";
+            }, 20000);
         }
-
-        if (Math.abs(cube.y - targetY) < moveSpeed) {
-            cube.y = targetY;
-            clearInterval(moveInterval); // Stop the movement
-        } else {
-            cube.y += cube.y < targetY ? moveSpeed : -moveSpeed;
-        }
-    }, 16); // Run every 16ms for smooth movement
+    }, 16);
 }
-
-// Start moving the player when the game starts
-moveToCenter();
 
 // Game loop
 app.ticker.add(() => {
-    // Left/Right movement
-    if (keys["ArrowLeft"] && cube.x > 0) cube.x -= speed;
-    if (keys["ArrowRight"] && cube.x + cube.width < app.renderer.width) cube.x += speed;
+    if (gameEnded) return;
+    
+    let isMoving = false;
+
+    if (keys["ArrowLeft"] && player.x > 0) {
+        player.x -= speed;
+        if (player.scale.x > 0) player.scale.x = -0.17;
+        isMoving = true;
+    }
+
+    if (keys["ArrowRight"] && player.x + player.width < app.renderer.width) {
+        player.x += speed;
+        if (player.scale.x < 0) player.scale.x = 0.17;
+        isMoving = true;
+    }
+
+    if (isMoving && !isJumping) {
+        if (!player.playing || player.textures !== runFrames) {
+            player.textures = runFrames;
+            player.animationSpeed = 0.15;
+            player.play();
+        }
+    } else if (!isMoving && !isJumping) {
+        player.stop();
+    }
 
     // Apply gravity
     velocityY += gravity;
-    cube.y += velocityY;
+    player.y += velocityY;
 
-    // Keep player inside game boundaries
-    if (cube.y + cube.height > app.renderer.height) {
-        cube.y = app.renderer.height - cube.height;
-        velocityY = 0;
-        isJumping = false;
-    }
-
-    // Check collision with platforms
-    checkPlatformCollision(cube, ground);
+    // Check collision with the ground
+    checkGroundCollision(player, ground);
 
     // Check if player touches the metal object (Ends the game)
-    if (isColliding(cube, metalObject)) {
+    if (isColliding(player, metalObject)) {
         endGame();
     }
 });

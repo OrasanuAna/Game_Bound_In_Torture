@@ -6,95 +6,175 @@ const app = new PIXI.Application({
     view: canvas,
     width: canvas.clientWidth,
     height: canvas.clientHeight,
-    backgroundColor: 0x1099bb
+    backgroundAlpha: 0,
+    backgroundTexture: PIXI.Texture.from("/assets/chamber-Two-background.jpg"),
 });
+
+// Function to create a platform with an image texture
+function createPlatform(x, y, width, height, texturePath = null) {
+    let platform;
+
+    if (texturePath) {
+        // ✅ If a texture path is provided, create a Sprite
+        const texture = PIXI.Texture.from(texturePath);
+        platform = new PIXI.Sprite(texture);
+        platform.width = width;
+        platform.height = height;
+    } else {
+        // ✅ If no texture is provided, create a colored rectangle platform
+        platform = new PIXI.Graphics();
+        platform.beginFill(0x8B4513); // Brown color
+        platform.drawRect(0, 0, width, height);
+        platform.endFill();
+    }
+
+    platform.x = x;
+    platform.y = y;
+    platform.width = width;
+    platform.height = height;
+    app.stage.addChild(platform);
+
+    return platform;
+}
 
 // Resize PixiJS when the window resizes
 window.addEventListener("resize", () => {
     app.renderer.resize(canvas.clientWidth, canvas.clientHeight);
 });
 
-// Function to create a platform
-function createPlatform(x, y, width, height) {
-    const platform = new PIXI.Graphics();
-    platform.beginFill(0x8B4513);
-    platform.drawRect(0, 0, width, height);
-    platform.endFill();
-    platform.x = x;
-    platform.y = y;
-    platform.width = width;
-    platform.height = height;
-    app.stage.addChild(platform);
-    return platform;
-}
-
 const groundWidth = app.renderer.width * 1.0; 
-const groundHeight = app.renderer.height * 0.20;
+const groundHeight = app.renderer.height * 0.060;
 
 const ground = createPlatform(0, app.renderer.height - groundHeight, groundWidth, groundHeight);
-const platform1 = createPlatform(450, 500, 250, 30);
-const platform2 = createPlatform(150, 150, 200, 30);
-const platform3 = createPlatform(450, 250, 200, 30);
-const platform4 = createPlatform(700, 150, 200, 30);
+const platform1 = createPlatform(380, 600, 250, 30,"/assets/platform1.png");
+const platform2 = createPlatform(100, 200, 250, 30,"/assets/platform6.png");
+const platform3 = createPlatform(400, 325, 250, 30, "/assets/platform2.png");
+const platform4 = createPlatform(680, 200, 150, 30, "/assets/platform2.png");
+const platform5 = createPlatform(100, 150, 250, 60,"/assets/platform5.png");
+const platform6 = createPlatform(350, 600, 250, 30,"/assets/platform1.png");
+const platform7 = createPlatform(330, 325, 250, 30, "/assets/platform2.png");
+const platform8 = createPlatform(620, 200, 150, 30, "/assets/platform2.png");
 
-const verticalBarrier = createPlatform(900, 150, 40, 500); // 🔥 Made taller!
-const movingPlatform = createPlatform(750, 250, 150, 20);
 
-// Function to create a triangular obstacle with gravity
-function createTriangleObstacle(x, y) {
-    const obstacle = new PIXI.Graphics();
-    obstacle.beginFill(0xFF0000);
-    obstacle.moveTo(0, 0); // Top
-    obstacle.lineTo(25, 50); // Bottom-right
-    obstacle.lineTo(-25, 50); // Bottom-left
-    obstacle.lineTo(0, 0);
-    obstacle.endFill();
-    
+
+const verticalBarrier = createPlatform(800, 250, 70, 550,"/assets/vertical.png"); // 🔥 Made taller!
+const movingPlatform = createPlatform(670, 450, 150, 20, "/assets/platform3.png");
+
+// Function to create a triangular obstacle with an optional texture
+function createTriangleObstacle(x, y, texturePath = null) {
+    let obstacle;
+
+    if (texturePath) {
+        // ✅ If a texture path is provided, create a sprite
+        const texture = PIXI.Texture.from(texturePath);
+        obstacle = new PIXI.Sprite(texture);
+        obstacle.width = 30;  // Adjust width to fit design
+        obstacle.height = 30; // Adjust height to fit design
+    } else {
+        // ✅ If no texture is provided, create a colored triangle
+        obstacle = new PIXI.Graphics();
+        obstacle.beginFill(0xFF0000); // Red color for default obstacle
+        obstacle.moveTo(0, 0); // Top
+        obstacle.lineTo(25, 50); // Bottom-right
+        obstacle.lineTo(-25, 50); // Bottom-left
+        obstacle.lineTo(0, 0);
+        obstacle.endFill();
+    }
+
+    // Positioning the obstacle
     obstacle.x = x;
     obstacle.y = y;
-    obstacle.width = 20;
-    obstacle.height = 20;
     obstacle.velocityY = 0;
     obstacle.points = [
         { x: x, y: y }, 
         { x: x + 10, y: y + 20 }, 
         { x: x - 10, y: y + 20 }
     ];
+    
+    // Add the obstacle to the stage
     app.stage.addChild(obstacle);
     return obstacle;
 }
 
+// Function to create a spike that is **purely decorative** (no collision)
+function createDecorativeSpike(x, y, texturePath) {
+    const spikeTexture = PIXI.Texture.from(texturePath);
+    const spike = new PIXI.Sprite(spikeTexture);
+    
+    // Set position
+    spike.x = x;
+    spike.y = y;
+    
+    // Adjust size (if needed)
+    spike.width = 30;
+    spike.height = 30;
+
+    // ✅ Add the spike to the scene **without collision logic**
+    app.stage.addChild(spike);
+}
+
 // Create obstacles
 const obstacles = [
-    createTriangleObstacle(550, 250),
-    createTriangleObstacle(885, 50),
+    createTriangleObstacle(380, 450, "/assets/jumping-spike.png"),
+    createTriangleObstacle(785, 50, "/assets/jumping-spike.png"),
 ];
 
-// Create the player (blue cube)
-const cube = new PIXI.Graphics();
-cube.beginFill(0x349457);
-cube.drawRect(0, 0, 50, 50);
-cube.endFill();
-cube.x = 375;
-cube.y = 500;
-cube.width = 50;
-cube.height = 50;
-app.stage.addChild(cube);
+createDecorativeSpike(745, 170, "/assets/jumping-spike.png");
+createDecorativeSpike(765, 170, "/assets/jumping-spike.png");
+
+
+
+// Load running animation frames for the character
+const runFrames = [
+    PIXI.Texture.from("/assets/frame1.png"),
+    PIXI.Texture.from("/assets/frame2.png"),
+    PIXI.Texture.from("/assets/frame3.png"),
+    PIXI.Texture.from("/assets/frame4.png"),    
+    PIXI.Texture.from("/assets/frame5.png"),
+    PIXI.Texture.from("/assets/frame6.png"),
+    PIXI.Texture.from("/assets/frame7.png"),
+    PIXI.Texture.from("/assets/frame8.png")
+];
+
+
+const jumpFrames = [
+    PIXI.Texture.from("/assets/jump-frame1.png"),  
+    PIXI.Texture.from("/assets/jump-frame5.png"),   
+    PIXI.Texture.from("/assets/jump-frame9.png"),
+    PIXI.Texture.from("/assets/jump-frame10.png"),
+];
+
+// Create the player sprite
+const player = new PIXI.AnimatedSprite(runFrames);
+
+// Set up player position and size
+player.x = 100;
+player.y = 500;
+player.width = 50;  // ✅ Manually setting width
+player.height = 80; // ✅ Manually setting height
+player.scale.set(0.17, 0.17); // Keep the sprite proportional
+player.anchor.set(0.5, 0); // Centered correctly
+player.animationSpeed = 0.1;
+player.loop = true;
+player.play();
+
+app.stage.addChild(player);
+
 
 // Create the door (goal)
 const door = new PIXI.Graphics();
-door.beginFill(0x228B22);
+door.beginFill();
 door.drawRect(0, 0, 50, 80);
 door.endFill();
-door.x = 1050;
-door.y = 545;
-door.width = 50;
+door.x = 850;
+door.y = 735;
+door.width = 500;
 door.height = 80;
 app.stage.addChild(door);
 
 // Movement variables
-let speed = 5;
-let gravity = 1;
+let speed = 4;
+let gravity = 0.6;
 let velocityY = 0;
 let isJumping = false;
 let keys = {};
@@ -105,11 +185,34 @@ let onMovingPlatform = false;
 window.addEventListener("keydown", (e) => keys[e.code] = true);
 window.addEventListener("keyup", (e) => keys[e.code] = false);
 
+const backgroundTexture = PIXI.Texture.from("/assets/chamber-Two-background.jpg");
+
+// Ensure the texture is fully loaded before using it
+backgroundTexture.baseTexture.on("loaded", () => {
+    console.log("Background loaded successfully!");
+});
+
+// Create background sprite
+const backgroundSprite = new PIXI.Sprite(backgroundTexture);
+
+// Make sure it covers the entire canvas
+backgroundSprite.width = app.renderer.width;
+backgroundSprite.height = app.renderer.height;
+backgroundSprite.zIndex = -1;
+
+// Add to stage
+app.stage.addChildAt(backgroundSprite, 0);
+
 // Jump function
 function jump() {
     if (!isJumping) {
-        velocityY = -17;
+        velocityY = -14;
         isJumping = true;
+
+        // ✅ Switch to jump animation
+        player.textures = jumpFrames;
+        player.animationSpeed = 0.15; // Slower jump animation
+        player.play();
     }
 }
 
@@ -125,7 +228,6 @@ function isColliding(obj1, obj2) {
            obj1.y + obj1.height > obj2.y;
 }
 
-// Function to check collision with triangular obstacles
 function isCollidingWithTriangle(player, triangle) {
     let playerRect = { x: player.x, y: player.y, width: player.width, height: player.height };
     for (let i = 0; i < triangle.points.length; i++) {
@@ -179,18 +281,19 @@ function checkPlatformCollision(player, platform) {
 }
 
 
-// Create the special object on Platform 4 (Interactive)
-const secretObject = new PIXI.Graphics();
-secretObject.beginFill(0xFFD700); // Gold color
-secretObject.drawRect(0, 0, 30, 30);
-secretObject.endFill();
-secretObject.x = platform2.x + platform2.width / 2 - 15;
-secretObject.y = platform2.y - 30;
-secretObject.width = 30;
-secretObject.height = 30;
+// Load the letter texture
+const letterTexture = PIXI.Texture.from("/assets/artefact3.png");
+
+// Create the letter sprite as the secret object
+const secretObject = new PIXI.Sprite(letterTexture);
+secretObject.width = 30; // Set width
+secretObject.height = 30; // Set height
+secretObject.x = platform2.x + platform2.width / 2 - 25; // Center it on Platform 2
+secretObject.y = platform2.y - 30; // Slightly above the platform
 app.stage.addChild(secretObject);
 
 let secretObjectExists = true; // Track if the object is still active
+
 
 // Function to show the modal
 function showModal(message) {
@@ -215,41 +318,105 @@ function goToNextLevel() {
     }
 }
 
+const idleFrames = [
+    PIXI.Texture.from("/assets/idle-frame1.png"),
+    PIXI.Texture.from("/assets/idle-frame2.png"),
+    PIXI.Texture.from("/assets/idle-frame3.png")
+];
+
+let isIdle = false;
+let idleTimer = null; // Timer for idle animation
+const idleDelay = 1000; // 3 seconds
+
+function triggerIdleAnimation() {
+    if (!isIdle && !keys["ArrowLeft"] && !keys["ArrowRight"]) {
+        player.textures = idleFrames;
+        player.animationSpeed = 0.1;
+        player.loop = true;
+        player.play();
+        isIdle = true;
+    }
+}
+
 // Game loop
 app.ticker.add(() => {
-    // Left/Right movement
-    if (keys["ArrowLeft"] && cube.x > 0) cube.x -= speed;
-    if (keys["ArrowRight"] && cube.x + cube.width < app.renderer.width) cube.x += speed;
 
-    // Apply gravity (only if not on the moving platform)
-    if (!onMovingPlatform) {
-        velocityY += gravity;
-        cube.y += velocityY;
+    let isMoving = false;
+
+    if (keys["ArrowLeft"] && player.x > 0) {
+        player.x -= speed;
+        if (player.scale.x > 0) player.scale.x = -0.17;
+        isMoving = true;
     }
 
-    // Keep player inside game boundaries
-    if (cube.y + cube.height > app.renderer.height) {
-        cube.y = app.renderer.height - cube.height;
-        velocityY = 0;
-        isJumping = false;
+    if (keys["ArrowRight"] && player.x + player.width < app.renderer.width) {
+        player.x += speed;
+        if (player.scale.x < 0) player.scale.x = 0.17;
+        isMoving = true;
     }
+
+    // ✅ Fix: Play running animation only when moving on the ground
+    if (isMoving && !isJumping) {
+        if (!player.playing || player.textures !== runFrames) {
+            player.textures = runFrames;
+            player.animationSpeed = 0.15; // ✅ Running is faster
+            player.play();
+        }
+    } else if (!isMoving && !isJumping) {
+        player.stop();
+    }
+
+            // ✅ Detect movement and reset idle timer
+            if (isMoving) {
+                if (isIdle) {
+                    player.textures = runFrames; // Return to running animation
+                    player.animationSpeed = 0.15;
+                    player.loop = true;
+                    player.play();
+                    isIdle = false;
+                }
+        
+                clearTimeout(idleTimer); // Reset idle timer
+                idleTimer = setTimeout(() => {
+                    triggerIdleAnimation();
+                }, idleDelay);
+            }
+
+    // ✅ Apply gravity
+    velocityY += gravity;
+    player.y += velocityY;
+
+        // ✅ Fix: Reset jump animation when landing
+        if (player.y > app.renderer.height - ground.height) {
+            player.y = app.renderer.height - ground.height;
+            velocityY = 0;
+            isJumping = false;
+    
+            // ✅ Switch back to running animation when landing
+            if (player.textures !== runFrames) {
+                player.textures = runFrames;
+                player.animationSpeed = 0.15; // ✅ Restore running speed
+                player.play();
+            }
+        }
+
 
      // Check collision with platforms
-     [ground, platform1, platform2, platform3, platform4, movingPlatform].forEach(platform => checkPlatformCollision(cube, platform));
+     [ground, platform1, platform2, platform3, platform4, movingPlatform].forEach(platform => checkPlatformCollision(player, platform));
 
      // Move platform up and down
      if (movingUp) {
          movingPlatform.y -= 1;
-         if (movingPlatform.y <= 300) movingUp = false;
+         if (movingPlatform.y <= 400) movingUp = false;
      } else {
          movingPlatform.y += 1;
-         if (movingPlatform.y >= 430) movingUp = true;
+         if (movingPlatform.y >= 500) movingUp = true;
      }
 
 
     // Handle moving platform collision
-    if (isColliding(cube, movingPlatform)) {
-        cube.y = movingPlatform.y - cube.height; // Keep player on top
+    if (isColliding(player, movingPlatform)) {
+        player.y = movingPlatform.y - player.height; // Keep player on top
         velocityY = 0; // Stop gravity
         isJumping = false;
         onMovingPlatform = true;
@@ -263,13 +430,13 @@ app.ticker.add(() => {
     }
 
         // Fix: Block the player from passing through the vertical barrier
-        if (isColliding(cube, verticalBarrier)) {
-            if (cube.x + cube.width > verticalBarrier.x && cube.x < verticalBarrier.x + verticalBarrier.width / 2) {
+        if (isColliding(player, verticalBarrier)) {
+            if (player.x + player.width > verticalBarrier.x && player.x < verticalBarrier.x + verticalBarrier.width / 2) {
                 // Block movement from the left side
-                cube.x = verticalBarrier.x - cube.width;
-            } else if (cube.x < verticalBarrier.x + verticalBarrier.width && cube.x + cube.width > verticalBarrier.x + verticalBarrier.width / 2) {
+                player.x = verticalBarrier.x - player.width;
+            } else if (player.x < verticalBarrier.x + verticalBarrier.width && player.x + player.width > verticalBarrier.x + verticalBarrier.width / 2) {
                 // Block movement from the right side
-                cube.x = verticalBarrier.x + verticalBarrier.width;
+                player.x = verticalBarrier.x + verticalBarrier.width;
             }
         }
 
@@ -308,9 +475,9 @@ app.ticker.add(() => {
 
     // Check if player collides with a triangular obstacle (Fixed)
     obstacles.forEach(obstacle => {
-        if (isCollidingWithTriangle(cube, obstacle)) {
-            cube.x = 375;
-            cube.y = 500;
+        if (isCollidingWithTriangle(player, obstacle)) {
+            player.x = 100;
+            player.y = 500;
             velocityY = 0;
             isJumping = false;
 
@@ -323,7 +490,7 @@ app.ticker.add(() => {
     });
 
     // Check if player reaches the door
-    if (isColliding(cube, door)) {
+    if (isColliding(player, door)) {
         document.querySelector(".character-text").innerText = "Vespera: You completed the level!";
 
         // Wait for 2 seconds before moving to the next level
@@ -332,10 +499,16 @@ app.ticker.add(() => {
 
 
 
-    // Check if the player collides with the object and it exists
-    if (secretObjectExists && isColliding(cube, secretObject)) {
-        showModal("You found a hidden message! Well done!");
-        app.stage.removeChild(secretObject); // Remove from the game
-        secretObjectExists = false; // Mark as removed
+    // Check if the player collides with the letter
+    if (secretObjectExists && isColliding(player, secretObject)) {
+        showModal("You found the tarot card!");
+
+        // Remove letter from the game scene
+        app.stage.removeChild(secretObject);
+        secretObjectExists = false;
+
+        // Add the letter to the second inventory slot
+        document.querySelectorAll(".inventory-slot")[2].innerHTML = `<img src="/assets/artefact3.png" alt="Letter">`;
     }
+
 });

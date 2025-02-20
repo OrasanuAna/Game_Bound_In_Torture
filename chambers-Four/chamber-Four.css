@@ -8,7 +8,6 @@ body {
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  background-color: #121212;
   font-family: "Press Start 2P", cursive;
 }
 
@@ -17,6 +16,7 @@ body {
   flex-direction: column;
   width: 100vw;
   height: 100vh;
+  background-image: url("/assets/chamber-Four-background.jpg");
 }
 
 .top-row {
@@ -25,17 +25,18 @@ body {
 }
 
 .image-section {
-  flex: 0.3; /* Imaginea ocupă mai puțin spațiu */
+  flex: 0.3;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  background-color: #111;
 }
 
 .image-section img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .game-section {
