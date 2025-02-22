@@ -203,6 +203,16 @@ backgroundSprite.zIndex = -1;
 // Add to stage
 app.stage.addChildAt(backgroundSprite, 0);
 
+const dialogues = [
+    { speaker: "Aldric", text: "Shadows… a past I don’t understand. What was your connection to the inferno?" },
+    { speaker: "Vespera", text: "It wasn’t my choice. Behind my smile, a force you never understood. Now, it’s too late." },
+    { speaker: "Aldric", text: "This room, this smell… what is all of this? Regrets… embedded in flesh and blood. A corpse… there's a corpse here, isn’t there?" },
+    { speaker: "Vespera", text: "There are no memories here, Aldric. Only echoes. Flesh and blood consumed it all." },
+]
+
+let currentDialogueIndex = 0;
+let dialogueActive = false;
+
 // Jump function
 function jump() {
     if (!isJumping) {
@@ -219,6 +229,32 @@ function jump() {
 window.addEventListener("keydown", (e) => {
     if (e.code === "Space") jump();
 });
+
+function showDialogue() {
+    if (currentDialogueIndex < dialogues.length) {
+        document.querySelector(".character-name").innerText = dialogues[currentDialogueIndex].speaker;
+        document.querySelector(".character-text").innerText = dialogues[currentDialogueIndex].text;
+        currentDialogueIndex++;
+
+        // Hide the next button on the last dialogue
+        if (currentDialogueIndex === dialogues.length) {
+            document.querySelector(".next-button").style.display = "none";
+        }
+    } else {
+        dialogueActive = false;
+        movementPaused = false; // Allow player to move again
+        document.querySelector(".next-button").style.display = "block"; // Reset for future use
+        document.querySelector(".next-button").removeEventListener("click", showDialogue);
+    }
+}
+
+// Function to trigger dialogue when the player touches the letter
+function triggerDialogue() {
+    dialogueActive = true;
+    document.querySelector(".text-box").style.display = "flex";
+    showDialogue();
+    document.querySelector(".next-button").addEventListener("click", showDialogue);
+}
 
 // Function to check collision (Rectangular Objects)
 function isColliding(obj1, obj2) {
@@ -481,17 +517,11 @@ app.ticker.add(() => {
             velocityY = 0;
             isJumping = false;
 
-            // Fix: Change text in `.character-text`, not `info-box`
-            let textBox = document.querySelector(".character-text");
-            if (textBox) {
-                textBox.innerText = "Vespera: You hit an obstacle!";
-            }
         }
     });
 
     // Check if player reaches the door
     if (isColliding(player, door)) {
-        document.querySelector(".character-text").innerText = "Vespera: You completed the level!";
 
         // Wait for 2 seconds before moving to the next level
         setTimeout(goToNextLevel, 2000);
@@ -501,7 +531,7 @@ app.ticker.add(() => {
 
     // Check if the player collides with the letter
     if (secretObjectExists && isColliding(player, secretObject)) {
-        showModal("You found the tarot card!");
+        triggerDialogue();
 
         // Remove letter from the game scene
         app.stage.removeChild(secretObject);

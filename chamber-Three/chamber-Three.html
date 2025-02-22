@@ -22,14 +22,10 @@
       </div>
       <div class="text-box">
         <div class="text-content">
-          <p class="character-name">Vespera</p>
+          <p class="character-name">Aldric</p>
           <div class="text-button">
             <p class="character-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium doloribus sequi, repellendus similique esse
-              voluptatibus vitae necessitatibus eum cupiditate voluptate unde
-              libero sapiente eos accusantium explicabo voluptas cumque
-              consequuntur? Explicabo.
+              What is this mess? Why is everything covered in blood?
             </p>
             <button class="next-button">
               <i class="fas fa-arrow-right"></i>
@@ -40,8 +36,8 @@
           <p class="inventory-title">Inventory</p>
           <div class="inventory-grid">
             <div class="inventory-slot"><img src="/assets/artefact1.png" /></div>
-            <div class="inventory-slot"><img src="/assets/artefact2.png"/></div>
-            <div class="inventory-slot"><img src="/assets/artefact3.png"/></div>
+            <div class="inventory-slot"><img src="/assets/artefact2.png" /></div>
+            <div class="inventory-slot"><img src="/assets/artefact3.png" /></div>
             <div class="inventory-slot"></div>
           </div>
         </div>
@@ -52,8 +48,8 @@
     <script>
       const app = new PIXI.Application({
         view: document.getElementById("gameCanvas"),
-        width: window.innerWidth * 0.75,
-        height: window.innerHeight * 0.85,
+        width: window.innerWidth * 0.7,
+        height: window.innerHeight * 0.855,
       });
 
       app.stage.sortableChildren = true;
@@ -72,7 +68,7 @@
       console.log("Background added:", backgroundSprite);
 
       document.addEventListener("DOMContentLoaded", () => {
-        const audio = new Audio("/assets/chamber-Two-sound.mp3");
+        const audio = new Audio("/assets/chamber-Three-sound.mp3");
         audio.loop = true;
         audio.volume = 1;
 

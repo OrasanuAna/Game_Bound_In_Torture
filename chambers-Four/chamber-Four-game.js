@@ -33,7 +33,7 @@ const groundWidth = app.renderer.width;
 const groundHeight = app.renderer.height * 0.05;
 
 const metalWidth = app.renderer.width * 0.1; 
-const metalHeight = app.renderer.height * 0.328;
+const metalHeight = app.renderer.height * 0.2;
 
 const ground = createPlatform(0, app.renderer.height - groundHeight, groundWidth, groundHeight);
 
@@ -47,6 +47,7 @@ metalObject.x = app.renderer.width - metalWidth;
 metalObject.y = app.renderer.height - metalHeight;
 metalObject.width = 50;
 metalObject.height = 100;
+metalObject.alpha = 0; // Invisible but still collidable
 app.stage.addChild(metalObject);
 
 // Load running animation frames for the character
@@ -96,6 +97,14 @@ backgroundTexture.baseTexture.on("loaded", () => {
 // Create background sprite
 const backgroundSprite = new PIXI.Sprite(backgroundTexture);
 
+// Dialogue sequence (triggers when touching the letter)
+const dialogues = [
+    { speaker: "Vespera", text: "You found me." },
+];
+
+let currentDialogueIndex = 0;
+let dialogueActive = false;
+
 // Make sure it covers the entire canvas
 backgroundSprite.width = app.renderer.width;
 backgroundSprite.height = app.renderer.height;
@@ -117,6 +126,32 @@ window.addEventListener("keydown", (e) => {
     if (e.code === "Space") jump();
 });
 
+function showDialogue() {
+    if (currentDialogueIndex < dialogues.length) {
+        document.querySelector(".character-name").innerText = dialogues[currentDialogueIndex].speaker;
+        document.querySelector(".character-text").innerText = dialogues[currentDialogueIndex].text;
+        currentDialogueIndex++;
+
+        // Hide the next button on the last dialogue
+        if (currentDialogueIndex === dialogues.length) {
+            document.querySelector(".next-button").style.display = "none";
+        }
+    } else {
+        dialogueActive = false;
+        movementPaused = false; // Allow player to move again
+        document.querySelector(".next-button").style.display = "block"; // Reset for future use
+        document.querySelector(".next-button").removeEventListener("click", showDialogue);
+    }
+}
+
+// Function to trigger dialogue when the player touches the letter
+function triggerDialogue() {
+    dialogueActive = true;
+    document.querySelector(".text-box").style.display = "flex";
+    showDialogue();
+    document.querySelector(".next-button").addEventListener("click", showDialogue);
+}
+
 // Function to check collision with the ground
 function checkGroundCollision(player, ground) {
     if (player.y + player.height >= ground.y) {
@@ -133,22 +168,37 @@ function isColliding(obj1, obj2) {
            obj1.y + obj1.height > obj2.y;
 }
 
+const darkOverlay = new PIXI.Graphics();
+darkOverlay.beginFill(0x000000, 0); // Fully transparent
+darkOverlay.drawRect(0, 0, app.renderer.width, app.renderer.height);
+darkOverlay.endFill();
+darkOverlay.zIndex = 10;
+app.stage.addChild(darkOverlay);
+
+const metalSound = new Audio("/assets/the-end.mp3"); // Replace with actual file path
+
+
 function endGame() {
+    triggerDialogue();
     gameEnded = true;
-    document.querySelector(".character-text").innerText = "Vespera: You reached the end!";
-    
-    // Change metal box texture
-    metalObject.texture = metalTextureAfter;
-    
-    let moveInterval = setInterval(() => {
-        
-        if (Math.abs(metalObject.x - player.x) < 5 && Math.abs(metalObject.y - player.y) < 5) {
-            clearInterval(moveInterval);
+
+    metalSound.play();
+
+    let opacity = 0;
+    const fadeInterval = setInterval(() => {
+        opacity += 0.02; // Gradually increase darkness
+        darkOverlay.clear();
+        darkOverlay.beginFill(0x000000, opacity);
+        darkOverlay.drawRect(0, 0, app.renderer.width, app.renderer.height);
+        darkOverlay.endFill();
+
+        if (opacity >= 1) {
+            clearInterval(fadeInterval);
             setTimeout(() => {
-                window.location.href = "../start-game/start-game.html";
-            }, 20000);
+                window.location.href = "../credits/credits.html";
+            }, 7000);
         }
-    }, 16);
+    }, 100); // Darkens gradually over ~5 seconds
 }
 
 // Game loop
@@ -159,13 +209,13 @@ app.ticker.add(() => {
 
     if (keys["ArrowLeft"] && player.x > 0) {
         player.x -= speed;
-        if (player.scale.x > 0) player.scale.x = -0.17;
+        if (player.scale.x > 0) player.scale.x = -0.2;
         isMoving = true;
     }
 
     if (keys["ArrowRight"] && player.x + player.width < app.renderer.width) {
         player.x += speed;
-        if (player.scale.x < 0) player.scale.x = 0.17;
+        if (player.scale.x < 0) player.scale.x = 0.2;
         isMoving = true;
     }
 

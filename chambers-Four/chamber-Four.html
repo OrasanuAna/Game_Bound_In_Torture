@@ -22,14 +22,10 @@
       </div>
       <div class="text-box">
         <div class="text-content">
-          <p class="character-name">Vespera</p>
+          <p class="character-name">Aldric</p>
           <div class="text-button">
             <p class="character-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium doloribus sequi, repellendus similique esse
-              voluptatibus vitae necessitatibus eum cupiditate voluptate unde
-              libero sapiente eos accusantium explicabo voluptas cumque
-              consequuntur? Explicabo.
+              Vespera, where are you?
             </p>
             <button class="next-button">
               <i class="fas fa-arrow-right"></i>
@@ -53,7 +49,7 @@
       const app = new PIXI.Application({
         view: document.getElementById("gameCanvas"),
         width: window.innerWidth * 0.7,
-        height: window.innerHeight * 0.85,
+        height: window.innerHeight * 0.855,
       });
 
       app.stage.sortableChildren = true;
@@ -72,7 +68,7 @@
       console.log("Background added:", backgroundSprite);
 
       document.addEventListener("DOMContentLoaded", () => {
-        const audio = new Audio("/assets/chamber-Two-sound.mp3");
+        const audio = new Audio("/assets/chamber-Four-sound.mp3");
         audio.loop = true;
         audio.volume = 1;
 
@@ -87,7 +83,7 @@
       });
     </script>
 
-    <script type="module" src="chamber-Four-game.js"></script>
+    <script type="module" src="./chamber-Four-game.js"></script>
 
     <div id="messageModal" class="modal">
       <div class="modal-content">

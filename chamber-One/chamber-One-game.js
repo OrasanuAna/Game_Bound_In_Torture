@@ -482,8 +482,6 @@ app.ticker.add(() => {
         // Check if the player collides with the letter
         if (secretObjectExists && isColliding(player, secretObject)) {
             triggerDialogue();
-
-            showModal("You found the letter!");
     
             // Remove letter from the game scene
             app.stage.removeChild(secretObject);

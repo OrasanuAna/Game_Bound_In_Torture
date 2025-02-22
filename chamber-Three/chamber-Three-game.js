@@ -48,15 +48,15 @@ const groundWidth = app.renderer.width * 1.0;
 const groundHeight = app.renderer.height * 0.060;
 
 const ground = createPlatform(0, app.renderer.height - groundHeight, groundWidth, groundHeight);
-const platform1 = createPlatform(400, 550, 200, 30, "/assets/platform2.png");
-const platform2 = createPlatform(700, 625, 180, 30, "/assets/platform2.png");
+const platform1 = createPlatform(250, 550, 350, 30, "/assets/platform2.png");
+const platform2 = createPlatform(700, 625, 200, 30, "/assets/platform2.png");
 const platform3 = createPlatform(750, 140, 150, 30, "/assets/platform2.png");
 const platform4 = createPlatform(700, 350, 180, 30, "/assets/platform3.png");
 const platform5 = createPlatform(325, 140, 250, 30, "/assets/platform6.png");
 const platform6 = createPlatform(325, 90, 250, 60, "/assets/platform5.png");
 const platform7 = createPlatform(640, 625, 180, 30, "/assets/platform2.png");
 const platform8 = createPlatform(690, 140, 150, 30, "/assets/platform2.png");
-const platform9 = createPlatform(340, 550, 200, 30, "/assets/platform2.png");
+const platform9 = createPlatform(190, 550, 200, 30, "/assets/platform2.png");
 const platform10 = createPlatform(265, 140, 250, 30, "/assets/platform6.png");
 
 const verticalBarrier = createPlatform(850, 210, 70, 550, "/assets/vertical.png"); 
@@ -187,6 +187,20 @@ backgroundTexture.baseTexture.on("loaded", () => {
 // Create background sprite
 const backgroundSprite = new PIXI.Sprite(backgroundTexture);
 
+// Dialogue sequence (triggers when touching the letter)
+const dialogues = [
+    { speaker: "Aldric", text: "This… this is her ring! Vespera’s ring! Why is it here? What does it mean?" },
+    { speaker: "Vespera", text: "Did you think you would find me? That facing the past would bring me back?" },
+    { speaker: "Aldric", text: "Vespera! You're here! I found you!" },
+    { speaker: "Vespera", text: "Did you find me… or only a shadow? A shadow that follows you until silence remains?" },
+    { speaker: "Aldric", text: "No! Please! Don’t leave me again!" },
+    { speaker: "Vespera", text: "You found me, Aldric. But you never saved me. Now, you will never leave." },
+    { speaker: "Aldric", text: "No! No! This can’t be!" }
+];
+
+let currentDialogueIndex = 0;
+let dialogueActive = false;
+
 // Make sure it covers the entire canvas
 backgroundSprite.width = app.renderer.width;
 backgroundSprite.height = app.renderer.height;
@@ -224,6 +238,32 @@ function jump() {
 window.addEventListener("keydown", (e) => {
     if (e.code === "Space") jump();
 });
+
+function showDialogue() {
+    if (currentDialogueIndex < dialogues.length) {
+        document.querySelector(".character-name").innerText = dialogues[currentDialogueIndex].speaker;
+        document.querySelector(".character-text").innerText = dialogues[currentDialogueIndex].text;
+        currentDialogueIndex++;
+
+        // Hide the next button on the last dialogue
+        if (currentDialogueIndex === dialogues.length) {
+            document.querySelector(".next-button").style.display = "none";
+        }
+    } else {
+        dialogueActive = false;
+        movementPaused = false; // Allow player to move again
+        document.querySelector(".next-button").style.display = "block"; // Reset for future use
+        document.querySelector(".next-button").removeEventListener("click", showDialogue);
+    }
+}
+
+// Function to trigger dialogue when the player touches the letter
+function triggerDialogue() {
+    dialogueActive = true;
+    document.querySelector(".text-box").style.display = "flex";
+    showDialogue();
+    document.querySelector(".next-button").addEventListener("click", showDialogue);
+}
 
 // Function to check collision (Rectangular Objects)
 function isColliding(obj1, obj2) {
@@ -483,20 +523,12 @@ app.ticker.add(() => {
             player.y = 500;
             velocityY = 0;
             isJumping = false;
-
-            // Fix: Change text in `.character-text`, not `info-box`
-            let textBox = document.querySelector(".character-text");
-            if (textBox) {
-                textBox.innerText = "Vespera: You hit an obstacle!";
-            }
         }
         console.log(player.width, player.height)
     });
 
     // Check if player reaches the door
     if (isColliding(player, door)) {
-        document.querySelector(".character-text").innerText = "Vespera: You completed the level!";
-
         // Wait for 2 seconds before moving to the next level
         setTimeout(goToNextLevel, 2000);
     }
@@ -505,7 +537,7 @@ app.ticker.add(() => {
 
     // Check if the player collides with the letter
     if (secretObjectExists && isColliding(player, secretObject)) {
-        showModal("You found a ring!");
+        triggerDialogue();
 
         // Remove letter from the game scene
         app.stage.removeChild(secretObject);
