@@ -7,7 +7,7 @@ const app = new PIXI.Application({
   width: canvas.clientWidth,
   height: canvas.clientHeight,
   backgroundAlpha: 0,
-  backgroundTexture: PIXI.Texture.from("/assets/chamber-One-background.jpg"),
+  backgroundTexture: PIXI.Texture.from("assets/chamber-One-background.jpg"),
 });
 
 // Function to create a platform with an image texture
@@ -51,19 +51,19 @@ const ground = createPlatform(
   groundWidth,
   groundHeight
 );
-const platform1 = createPlatform(350, 640, 250, 30, "/assets/platform2.png");
-const platform2 = createPlatform(550, 500, 200, 30, "/assets/platform2.png");
-const platform3 = createPlatform(50, 275, 200, 30, "/assets/platform6.png");
-const platform4 = createPlatform(200, 350, 300, 30, "/assets/platform2.png");
-const platform5 = createPlatform(50, 225, 200, 60, "/assets/platform5.png");
-const platform6 = createPlatform(270, 640, 250, 30, "/assets/platform2.png");
-const platform7 = createPlatform(480, 500, 200, 30, "/assets/platform2.png");
+const platform1 = createPlatform(350, 640, 250, 30, "assets/platform2.png");
+const platform2 = createPlatform(550, 500, 200, 30, "assets/platform2.png");
+const platform3 = createPlatform(50, 275, 200, 30, "assets/platform6.png");
+const platform4 = createPlatform(200, 350, 300, 30, "assets/platform2.png");
+const platform5 = createPlatform(50, 225, 200, 60, "assets/platform5.png");
+const platform6 = createPlatform(270, 640, 250, 30, "assets/platform2.png");
+const platform7 = createPlatform(480, 500, 200, 30, "assets/platform2.png");
 const verticalBarrier = createPlatform(
   775,
   400,
   50,
   450,
-  "/assets/vertical.png"
+  "assets/vertical.png"
 );
 
 // Function to create a triangular obstacle with an optional texture
@@ -104,26 +104,26 @@ function createTriangleObstacle(x, y, texturePath = null) {
 
 // Create obstacles
 const obstacles = [
-  createTriangleObstacle(300, 300, "/assets/jumping-spike.png"), // Small spike
+  createTriangleObstacle(300, 300, "assets/jumping-spike.png"), // Small spike
 ];
 
 // Load running animation frames for the character
 const runFrames = [
-  PIXI.Texture.from("/assets/frame1.png"),
-  PIXI.Texture.from("/assets/frame2.png"),
-  PIXI.Texture.from("/assets/frame3.png"),
-  PIXI.Texture.from("/assets/frame4.png"),
-  PIXI.Texture.from("/assets/frame5.png"),
-  PIXI.Texture.from("/assets/frame6.png"),
-  PIXI.Texture.from("/assets/frame7.png"),
-  PIXI.Texture.from("/assets/frame8.png"),
+  PIXI.Texture.from("assets/frame1.png"),
+  PIXI.Texture.from("assets/frame2.png"),
+  PIXI.Texture.from("assets/frame3.png"),
+  PIXI.Texture.from("assets/frame4.png"),
+  PIXI.Texture.from("assets/frame5.png"),
+  PIXI.Texture.from("assets/frame6.png"),
+  PIXI.Texture.from("assets/frame7.png"),
+  PIXI.Texture.from("assets/frame8.png"),
 ];
 
 const jumpFrames = [
-  PIXI.Texture.from("/assets/jump-frame1.png"),
-  PIXI.Texture.from("/assets/jump-frame5.png"),
-  PIXI.Texture.from("/assets/jump-frame9.png"),
-  PIXI.Texture.from("/assets/jump-frame10.png"),
+  PIXI.Texture.from("assets/jump-frame1.png"),
+  PIXI.Texture.from("assets/jump-frame5.png"),
+  PIXI.Texture.from("assets/jump-frame9.png"),
+  PIXI.Texture.from("assets/jump-frame10.png"),
 ];
 
 // Create the player sprite
@@ -167,7 +167,7 @@ window.addEventListener("keydown", (e) => (keys[e.code] = true));
 window.addEventListener("keyup", (e) => (keys[e.code] = false));
 
 const backgroundTexture = PIXI.Texture.from(
-  "/assets/chamber-One-background.jpg"
+  "assets/chamber-One-background.jpg"
 );
 
 // Ensure the texture is fully loaded before using it
@@ -337,7 +337,7 @@ function checkPlatformCollision(player, platform) {
 }
 
 // Load the letter texture
-const letterTexture = PIXI.Texture.from("/assets/artefact2.png");
+const letterTexture = PIXI.Texture.from("assets/artefact2.png");
 
 // Create the letter sprite as the secret object
 const secretObject = new PIXI.Sprite(letterTexture);
@@ -373,9 +373,9 @@ function goToNextLevel() {
 }
 
 const idleFrames = [
-  PIXI.Texture.from("/assets/idle-frame1.png"),
-  PIXI.Texture.from("/assets/idle-frame2.png"),
-  PIXI.Texture.from("/assets/idle-frame3.png"),
+  PIXI.Texture.from("assets/idle-frame1.png"),
+  PIXI.Texture.from("assets/idle-frame2.png"),
+  PIXI.Texture.from("assets/idle-frame3.png"),
 ];
 
 let isIdle = false;
@@ -532,6 +532,6 @@ app.ticker.add(() => {
     // Add the letter to the second inventory slot
     document.querySelectorAll(
       ".inventory-slot"
-    )[1].innerHTML = `<img src="/assets/artefact2.png" alt="Letter">`;
+    )[1].innerHTML = `<img src="assets/artefact2.png" alt="Letter">`;
   }
 });

@@ -10,7 +10,7 @@ const app = new PIXI.Application({
 });
 
 // Load background texture
-const backgroundTexture = PIXI.Texture.from("/assets/prologue-background.png");
+const backgroundTexture = PIXI.Texture.from("assets/prologue-background.png");
 const backgroundSprite = new PIXI.Sprite(backgroundTexture);
 backgroundSprite.width = app.renderer.width;
 backgroundSprite.height = app.renderer.height;
@@ -19,14 +19,14 @@ app.stage.addChildAt(backgroundSprite, 0);
 
 // Load running animation frames for the character
 const runFrames = [
-  PIXI.Texture.from("/assets/frame1.png"),
-  PIXI.Texture.from("/assets/frame2.png"),
-  PIXI.Texture.from("/assets/frame3.png"),
-  PIXI.Texture.from("/assets/frame4.png"),
-  PIXI.Texture.from("/assets/frame5.png"),
-  PIXI.Texture.from("/assets/frame6.png"),
-  PIXI.Texture.from("/assets/frame7.png"),
-  PIXI.Texture.from("/assets/frame8.png"),
+  PIXI.Texture.from("assets/frame1.png"),
+  PIXI.Texture.from("assets/frame2.png"),
+  PIXI.Texture.from("assets/frame3.png"),
+  PIXI.Texture.from("assets/frame4.png"),
+  PIXI.Texture.from("assets/frame5.png"),
+  PIXI.Texture.from("assets/frame6.png"),
+  PIXI.Texture.from("assets/frame7.png"),
+  PIXI.Texture.from("assets/frame8.png"),
 ];
 
 // Create the player sprite (character)
@@ -44,7 +44,7 @@ player.zIndex = 1;
 app.stage.addChild(player);
 
 // Create a secret object in the middle of the map
-const secretTexture = PIXI.Texture.from("/assets/artefact1.png");
+const secretTexture = PIXI.Texture.from("assets/artefact1.png");
 const secretObject = new PIXI.Sprite(secretTexture);
 secretObject.x = app.renderer.width / 2 + 150; // Slightly to the right
 secretObject.y = app.renderer.height - 140; // Near the ground
@@ -111,7 +111,7 @@ app.ticker.add(() => {
       // Add the letter to the first inventory slot
       document.querySelectorAll(
         ".inventory-slot"
-      )[0].innerHTML = `<img src="/assets/artefact1.png" alt="Letter">`;
+      )[0].innerHTML = `<img src="assets/artefact1.png" alt="Letter">`;
     }
 
     // Check if player reaches the left side of the screen

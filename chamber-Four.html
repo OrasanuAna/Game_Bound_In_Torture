@@ -12,7 +12,7 @@
       <div class="top-row">
         <div class="image-section">
           <img
-            src="/assets/Vespera-chamber-Four.png"
+            src="assets/Vespera-chamber-Four.png"
             alt="Vespera Chamber Four"
           />
         </div>
@@ -34,16 +34,16 @@
           <p class="inventory-title">Inventory</p>
           <div class="inventory-grid">
             <div class="inventory-slot">
-              <img src="/assets/artefact1.png" />
+              <img src="assets/artefact1.png" />
             </div>
             <div class="inventory-slot">
-              <img src="/assets/artefact2.png" />
+              <img src="assets/artefact2.png" />
             </div>
             <div class="inventory-slot">
-              <img src="/assets/artefact3.png" />
+              <img src="assets/artefact3.png" />
             </div>
             <div class="inventory-slot">
-              <img src="/assets/artefact4.png" />
+              <img src="assets/artefact4.png" />
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@
       app.stage.sortableChildren = true;
 
       const backgroundTexture = PIXI.Texture.from(
-        "/assets/chamber-Four-background.jpg"
+        "assets/chamber-Four-background.jpg"
       );
       const backgroundSprite = new PIXI.Sprite(backgroundTexture);
 
@@ -74,7 +74,7 @@
       console.log("Background added:", backgroundSprite);
 
       document.addEventListener("DOMContentLoaded", () => {
-        const audio = new Audio("/assets/chamber-Four-sound.mp3");
+        const audio = new Audio("assets/chamber-Four-sound.mp3");
         audio.loop = true;
         audio.volume = 1;
 

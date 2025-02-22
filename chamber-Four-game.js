@@ -7,7 +7,7 @@ const app = new PIXI.Application({
   width: canvas.clientWidth,
   height: canvas.clientHeight,
   backgroundAlpha: 0,
-  backgroundTexture: PIXI.Texture.from("/assets/chamber-Four-background.jpg"),
+  backgroundTexture: PIXI.Texture.from("assets/chamber-Four-background.jpg"),
 });
 
 // Resize PixiJS when the window resizes
@@ -42,8 +42,8 @@ const ground = createPlatform(
 );
 
 // Load metal textures
-const metalTextureBefore = PIXI.Texture.from("/assets/ironMainden.png");
-const metalTextureAfter = PIXI.Texture.from("/assets/ironMainden2.png");
+const metalTextureBefore = PIXI.Texture.from("assets/ironMainden.png");
+const metalTextureAfter = PIXI.Texture.from("assets/ironMainden2.png");
 
 const metalObject = new PIXI.Sprite(metalTextureBefore);
 metalObject.scale.x = -1;
@@ -56,14 +56,14 @@ app.stage.addChild(metalObject);
 
 // Load running animation frames for the character
 const runFrames = [
-  PIXI.Texture.from("/assets/frame1.png"),
-  PIXI.Texture.from("/assets/frame2.png"),
-  PIXI.Texture.from("/assets/frame3.png"),
-  PIXI.Texture.from("/assets/frame4.png"),
-  PIXI.Texture.from("/assets/frame5.png"),
-  PIXI.Texture.from("/assets/frame6.png"),
-  PIXI.Texture.from("/assets/frame7.png"),
-  PIXI.Texture.from("/assets/frame8.png"),
+  PIXI.Texture.from("assets/frame1.png"),
+  PIXI.Texture.from("assets/frame2.png"),
+  PIXI.Texture.from("assets/frame3.png"),
+  PIXI.Texture.from("assets/frame4.png"),
+  PIXI.Texture.from("assets/frame5.png"),
+  PIXI.Texture.from("assets/frame6.png"),
+  PIXI.Texture.from("assets/frame7.png"),
+  PIXI.Texture.from("assets/frame8.png"),
 ];
 
 // Create the player sprite
@@ -92,7 +92,7 @@ window.addEventListener("keydown", (e) => (keys[e.code] = true));
 window.addEventListener("keyup", (e) => (keys[e.code] = false));
 
 const backgroundTexture = PIXI.Texture.from(
-  "/assets/chamber-Four-background.jpg"
+  "assets/chamber-Four-background.jpg"
 );
 
 // Ensure the texture is fully loaded before using it
@@ -186,7 +186,7 @@ darkOverlay.endFill();
 darkOverlay.zIndex = 10;
 app.stage.addChild(darkOverlay);
 
-const metalSound = new Audio("/assets/the-end.mp3"); // Replace with actual file path
+const metalSound = new Audio("assets/the-end.mp3"); // Replace with actual file path
 
 function endGame() {
   triggerDialogue();

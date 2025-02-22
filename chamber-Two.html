@@ -11,10 +11,7 @@
     <div class="game-container">
       <div class="top-row">
         <div class="image-section">
-          <img
-            src="/assets/Vespera-chamber-Two.png"
-            alt="Vespera Chamber Two"
-          />
+          <img src="assets/Vespera-chamber-Two.png" alt="Vespera Chamber Two" />
         </div>
         <div class="game-section">
           <canvas id="gameCanvas"></canvas>
@@ -34,10 +31,10 @@
           <p class="inventory-title">Inventory</p>
           <div class="inventory-grid">
             <div class="inventory-slot">
-              <img src="/assets/artefact1.png" />
+              <img src="assets/artefact1.png" />
             </div>
             <div class="inventory-slot">
-              <img src="/assets/artefact2.png" />
+              <img src="assets/artefact2.png" />
             </div>
             <div class="inventory-slot"></div>
             <div class="inventory-slot"></div>
@@ -57,7 +54,7 @@
       app.stage.sortableChildren = true;
 
       const backgroundTexture = PIXI.Texture.from(
-        "/assets/chamber-Two-background.jpg"
+        "assets/chamber-Two-background.jpg"
       );
       const backgroundSprite = new PIXI.Sprite(backgroundTexture);
 
@@ -70,7 +67,7 @@
       console.log("Background added:", backgroundSprite);
 
       document.addEventListener("DOMContentLoaded", () => {
-        const audio = new Audio("/assets/chamber-Two-sound.mp3");
+        const audio = new Audio("assets/chamber-Two-sound.mp3");
         audio.loop = true;
         audio.volume = 1;
 

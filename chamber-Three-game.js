@@ -7,7 +7,7 @@ const app = new PIXI.Application({
   width: canvas.clientWidth,
   height: canvas.clientHeight,
   backgroundAlpha: 0,
-  backgroundTexture: PIXI.Texture.from("/assets/chamber-Three-background.jpg"),
+  backgroundTexture: PIXI.Texture.from("assets/chamber-Three-background.jpg"),
 });
 
 // Resize PixiJS when the window resizes
@@ -51,30 +51,30 @@ const ground = createPlatform(
   groundWidth,
   groundHeight
 );
-const platform1 = createPlatform(250, 550, 350, 30, "/assets/platform2.png");
-const platform2 = createPlatform(700, 625, 200, 30, "/assets/platform2.png");
-const platform3 = createPlatform(750, 140, 150, 30, "/assets/platform2.png");
-const platform4 = createPlatform(700, 350, 180, 30, "/assets/platform3.png");
-const platform5 = createPlatform(325, 140, 250, 30, "/assets/platform6.png");
-const platform6 = createPlatform(325, 90, 250, 60, "/assets/platform5.png");
-const platform7 = createPlatform(640, 625, 180, 30, "/assets/platform2.png");
-const platform8 = createPlatform(690, 140, 150, 30, "/assets/platform2.png");
-const platform9 = createPlatform(190, 550, 200, 30, "/assets/platform2.png");
-const platform10 = createPlatform(265, 140, 250, 30, "/assets/platform6.png");
+const platform1 = createPlatform(250, 550, 350, 30, "assets/platform2.png");
+const platform2 = createPlatform(700, 625, 200, 30, "assets/platform2.png");
+const platform3 = createPlatform(750, 140, 150, 30, "assets/platform2.png");
+const platform4 = createPlatform(700, 350, 180, 30, "assets/platform3.png");
+const platform5 = createPlatform(325, 140, 250, 30, "assets/platform6.png");
+const platform6 = createPlatform(325, 90, 250, 60, "assets/platform5.png");
+const platform7 = createPlatform(640, 625, 180, 30, "assets/platform2.png");
+const platform8 = createPlatform(690, 140, 150, 30, "assets/platform2.png");
+const platform9 = createPlatform(190, 550, 200, 30, "assets/platform2.png");
+const platform10 = createPlatform(265, 140, 250, 30, "assets/platform6.png");
 
 const verticalBarrier = createPlatform(
   850,
   210,
   70,
   550,
-  "/assets/vertical.png"
+  "assets/vertical.png"
 );
 const movingPlatform = createPlatform(
   100,
   350,
   150,
   20,
-  "/assets/platform2.png"
+  "assets/platform2.png"
 );
 
 // Function to create a triangular obstacle with an optional texture
@@ -132,35 +132,35 @@ function createDecorativeSpike(x, y, texturePath) {
 
 // Create obstacles
 const obstacles = [
-  createTriangleObstacle(850, 160, "/assets/jumping-spike.png"),
-  createTriangleObstacle(475, 500, "/assets/jumping-spike.png"),
-  createTriangleObstacle(460, 160, "/assets/jumping-spike.png"),
+  createTriangleObstacle(850, 160, "assets/jumping-spike.png"),
+  createTriangleObstacle(475, 500, "assets/jumping-spike.png"),
+  createTriangleObstacle(460, 160, "assets/jumping-spike.png"),
 ];
 
-createDecorativeSpike(430, 520, "/assets/jumping-spike.png");
-createDecorativeSpike(450, 520, "/assets/jumping-spike.png");
-createDecorativeSpike(420, 110, "/assets/jumping-spike.png");
-createDecorativeSpike(440, 110, "/assets/jumping-spike.png");
-createTriangleObstacle(810, 110, "/assets/jumping-spike.png");
-createTriangleObstacle(830, 110, "/assets/jumping-spike.png");
+createDecorativeSpike(430, 520, "assets/jumping-spike.png");
+createDecorativeSpike(450, 520, "assets/jumping-spike.png");
+createDecorativeSpike(420, 110, "assets/jumping-spike.png");
+createDecorativeSpike(440, 110, "assets/jumping-spike.png");
+createTriangleObstacle(810, 110, "assets/jumping-spike.png");
+createTriangleObstacle(830, 110, "assets/jumping-spike.png");
 
 // Load running animation frames for the character
 const runFrames = [
-  PIXI.Texture.from("/assets/frame1.png"),
-  PIXI.Texture.from("/assets/frame2.png"),
-  PIXI.Texture.from("/assets/frame3.png"),
-  PIXI.Texture.from("/assets/frame4.png"),
-  PIXI.Texture.from("/assets/frame5.png"),
-  PIXI.Texture.from("/assets/frame6.png"),
-  PIXI.Texture.from("/assets/frame7.png"),
-  PIXI.Texture.from("/assets/frame8.png"),
+  PIXI.Texture.from("assets/frame1.png"),
+  PIXI.Texture.from("assets/frame2.png"),
+  PIXI.Texture.from("assets/frame3.png"),
+  PIXI.Texture.from("assets/frame4.png"),
+  PIXI.Texture.from("assets/frame5.png"),
+  PIXI.Texture.from("assets/frame6.png"),
+  PIXI.Texture.from("assets/frame7.png"),
+  PIXI.Texture.from("assets/frame8.png"),
 ];
 
 const jumpFrames = [
-  PIXI.Texture.from("/assets/jump-frame1.png"),
-  PIXI.Texture.from("/assets/jump-frame5.png"),
-  PIXI.Texture.from("/assets/jump-frame9.png"),
-  PIXI.Texture.from("/assets/jump-frame10.png"),
+  PIXI.Texture.from("assets/jump-frame1.png"),
+  PIXI.Texture.from("assets/jump-frame5.png"),
+  PIXI.Texture.from("assets/jump-frame9.png"),
+  PIXI.Texture.from("assets/jump-frame10.png"),
 ];
 
 // Create the player sprite
@@ -191,7 +191,7 @@ door.height = 80;
 app.stage.addChild(door);
 
 const backgroundTexture = PIXI.Texture.from(
-  "/assets/chamber-Three-background.jpg"
+  "assets/chamber-Three-background.jpg"
 );
 
 // Ensure the texture is fully loaded before using it
@@ -375,7 +375,7 @@ function checkPlatformCollision(player, platform) {
 }
 
 // Load the letter texture
-const letterTexture = PIXI.Texture.from("/assets/artefact4.png");
+const letterTexture = PIXI.Texture.from("assets/artefact4.png");
 
 // Create the letter sprite as the secret object
 const secretObject = new PIXI.Sprite(letterTexture);
@@ -411,9 +411,9 @@ function goToNextLevel() {
 }
 
 const idleFrames = [
-  PIXI.Texture.from("/assets/idle-frame1.png"),
-  PIXI.Texture.from("/assets/idle-frame2.png"),
-  PIXI.Texture.from("/assets/idle-frame3.png"),
+  PIXI.Texture.from("assets/idle-frame1.png"),
+  PIXI.Texture.from("assets/idle-frame2.png"),
+  PIXI.Texture.from("assets/idle-frame3.png"),
 ];
 
 let isIdle = false;
@@ -596,6 +596,6 @@ app.ticker.add(() => {
     // Add the letter to the second inventory slot
     document.querySelectorAll(
       ".inventory-slot"
-    )[3].innerHTML = `<img src="/assets/artefact4.png" alt="Letter">`;
+    )[3].innerHTML = `<img src="assets/artefact4.png" alt="Letter">`;
   }
 });

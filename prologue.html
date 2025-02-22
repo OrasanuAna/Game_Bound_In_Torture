@@ -47,7 +47,7 @@
       app.stage.sortableChildren = true;
 
       const backgroundTexture = PIXI.Texture.from(
-        "/assets/prologue-background.jpg"
+        "assets/prologue-background.jpg"
       );
       const backgroundSprite = new PIXI.Sprite(backgroundTexture);
 
@@ -61,7 +61,7 @@
       console.log("Background added:", backgroundSprite);
 
       document.addEventListener("DOMContentLoaded", () => {
-        const audio = new Audio("/assets/prologue-sound.mp3");
+        const audio = new Audio("assets/prologue-sound.mp3");
         audio.loop = true;
         audio.volume = 1;
 
