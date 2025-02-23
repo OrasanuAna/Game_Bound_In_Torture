@@ -7,7 +7,7 @@ There were **8 competing teams**, and our team won **3rd place**! 🎉
 
 ## 🎮 Play the Game
 - **Demo**: [Game Bound In Torture](https://orasanuana.github.io/Game_Bound_In_Torture/)
-- **Game Tutorial**: [Watch the Tutorial](https://github.com/OrasanuAna/Game_Bound_In_Torture/blob/master/Bound%20In%20torture%20Tutorial.mp4)
+- **Game Tutorial**: [Watch the Tutorial](https://orasanuana.github.io/Bound_In_Torture_Video/)
 
 ## 👥 Team Members & Roles
 
