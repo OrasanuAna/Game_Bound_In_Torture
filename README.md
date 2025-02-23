@@ -9,6 +9,26 @@ There were **8 competing teams**, and our team won **3rd place**! 🎉
 - **Demo**: [Game Bound In Torture](https://orasanuana.github.io/Game_Bound_In_Torture/)
 - **Game Tutorial**: [Watch the Tutorial](https://orasanuana.github.io/Bound_In_Torture_Video/)
 
+## 📸 Screenshots
+### **Intro**
+![Intro](https://github.com/OrasanuAna/Game_Bound_In_Torture/blob/master/Pictures%20Bound%20In%20torture/Bound_in_torture.jpg)
+
+### **Prolog**
+![Prolog](https://github.com/OrasanuAna/Game_Bound_In_Torture/blob/master/Pictures%20Bound%20In%20torture/Prolog.jpg)
+
+### **Chamber One**
+![Chamber One](https://github.com/OrasanuAna/Game_Bound_In_Torture/blob/master/Pictures%20Bound%20In%20torture/chamber_one.jpg)
+
+### **Chamber Two**
+![Chamber Two](https://github.com/OrasanuAna/Game_Bound_In_Torture/blob/master/Pictures%20Bound%20In%20torture/chamber_two.jpg)
+
+### **Chamber Three**
+![Chamber Three](https://github.com/OrasanuAna/Game_Bound_In_Torture/blob/master/Pictures%20Bound%20In%20torture/chamber_three.jpg)
+
+### **Chamber Four**
+![Chamber Four](https://github.com/OrasanuAna/Game_Bound_In_Torture/blob/master/Pictures%20Bound%20In%20torture/chamber_four.jpg)
+
+
 ## 👥 Team Members & Roles
 
 ### **Game Developers**
