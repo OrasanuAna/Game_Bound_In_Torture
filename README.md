@@ -13,7 +13,7 @@ There were **8 competing teams**, and our team won **3rd place**! 🎉
 ### **Intro**
 ![Intro](https://github.com/OrasanuAna/Game_Bound_In_Torture/blob/master/Pictures%20Bound%20In%20torture/Bound_in_torture.jpg)
 
-### **Prolog**
+### **Prologue**
 ![Prolog](https://github.com/OrasanuAna/Game_Bound_In_Torture/blob/master/Pictures%20Bound%20In%20torture/Prolog.jpg)
 
 ### **Chamber One**
